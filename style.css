@@ -127,9 +127,10 @@ h2 {
 
 video {
   width: 100%;
+  max-width: 300px;
   height: auto;
   display: block;
-  margin-top: 25px;
+  margin: 25px auto 0;
 }
 
 /*Sidofoten*/
