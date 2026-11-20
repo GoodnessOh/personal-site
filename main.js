@@ -1,26 +1,50 @@
-// Start Pixi and put its canvas on the page
+
+// Skapar en PixiJS-applikation som täcker hela fönstret
 const app = new PIXI.Application();
-await app.init({ resizeTo: window, background: "#ffffff" });
+
+await app.init({
+  resizeTo: window,
+  backgroundAlpha: 0
+});
+
+// Lägger till PixiJS-canvasen på sidan
 document.body.appendChild(app.canvas);
 
+// Här ritas alla prickar
 const dots = new PIXI.Graphics();
 app.stage.addChild(dots);
 
-// Remember where the mouse is
-const mouse = { x: 0, y: 0 };
+// Sparar musens position
+const mouse = {
+  x: -1000,
+  y: -1000
+};
+
+// Uppdaterar positionen när musen rör sig
 window.addEventListener("pointermove", (e) => {
   mouse.x = e.clientX;
   mouse.y = e.clientY;
 });
 
-// Every frame: a grid of dots that grow when the mouse is near
 app.ticker.add(() => {
   dots.clear();
-  for (let x = 0; x < app.screen.width; x += 30) {
-    for (let y = 0; y < app.screen.height; y += 30) {
-      const distance = Math.hypot(x - mouse.x, y - mouse.y);
-      dots.circle(x, y, Math.max(1, 8 - distance / 30));
+
+  //Skapar ett rutnät av prickar
+  for (let x = 0; x < app.screen.width; x += 35) {
+    for (let y = 0; y < app.screen.height; y += 35) {
+
+      //Räknar ut avståndet till muspekaren
+      const distance = Math.hypot(
+        x - mouse.x,
+        y - mouse.y
+      );
+
+      //Prickarna växer i närheten av musen
+      const size = Math.max(1, 7 - distance / 35);
+
+      dots.circle(x, y, size);
     }
   }
-  dots.fill("#2b44d6");
+  //  prickarnas färg 
+  dots.fill("#777777");
 });
